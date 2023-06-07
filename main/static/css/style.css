@@ -1,0 +1,13 @@
+.product-list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.product {
+    background-color: #ababab;
+}
+.product img {
+    width: 100px;
+    height: 100px;
+}

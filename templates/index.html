@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <p>Категория {{ category.name }}</p>
+
+    <div class="product-list">
+    {% for product in products %}
+        <div class="product">
+            <img src="{{ product.img.url }}" alt="">
+            <p>Товар: {{ product.name }} </p>
+            <p>Цена: {{ product.price }} рублей </p>
+        </div>
+    {% endfor %}
+    </div>
+    
+{% endblock%}
