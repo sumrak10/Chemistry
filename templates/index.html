@@ -1,16 +1,28 @@
 {% extends 'base.html' %}
 
-{% block content %}
-    <p>Категория {{ category.name }}</p>
 
-    <div class="product-list">
-    {% for product in products %}
-        <div class="product">
-            <img src="{{ product.img.url }}" alt="">
-            <p>Товар: {{ product.name }} </p>
-            <p>Цена: {{ product.price }} рублей </p>
-        </div>
-    {% endfor %}
+{% block header %}
+    <!-- <li class="breadcrumb-item active" aria-current="page">Категории</li> -->
+{% endblock %}
+
+{% block content %}
+
+<!-- <a href="/category/{{ category.id }}" class="btn btn-primary">Открыть</a> -->
+    
+    <div class="search-containter">
+        <form class="d-flex search">
+            <input class="form-control me-2" type="search" placeholder="Начните вводить" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Искать</button>
+        </form>
+    </div>
+    <div class="items-list" >
+        {% for category in categories %}
+            <a href="/category/{{ category.id }}" class="category-card" style="background-image: url('{{ category.img.url }}');">
+                <div class="body">
+                    <h6 class="title">{{ category.name }}</h6>
+                </div>
+            </a>
+        {% endfor %}
     </div>
     
 {% endblock%}

@@ -1,13 +1,215 @@
-.product-list {
+body {
+    background-color: #d9ffe3;
+}
+nav {
+    height: 80px;
+    backdrop-filter: blur(6px);
+    background-color: #ffffff5f;
+}
+header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 12px 10%;
     display: flex;
     align-items: center;
+    height: 100%;
+    background-color: #255920;
+}
+header .breadcrumb {
+    width: 100%;
+    margin-bottom: 0;
+}
+.breadcrumb-item a {
+    color: #b7ffca;
+}
+.breadcrumb-item {
+    color: rgb(199, 255, 190) !important;
+} 
+
+
+
+.search-containter {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.search {
+    width: 50%;
+    padding: 12px;
+}
+.search input[type=search] {
+    width: 200%;
+}
+.navbar .container-fluid {
+    margin-right: 10%;
+}
+.navbar-menu {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px 5%;
+}
+footer {
+    background-color: #255920;
+    color: white;
+    padding: 24px 10%;
+}
+a {
+    text-decoration: none;
+}
+.logo {
+    width: 110px;
+    margin-left: 10%;
+}
+.logo img {
+    width: 100%;
+    height: 100%;
+}
+
+.items-list {
+    padding: 12px 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 32px;
 }
-.product {
-    background-color: #ababab;
+
+.category-card {
+    width: 16rem;
+    height: 16rem;
+    border-radius: 16px;
+    background-size: cover;
+    background-position: center center;
+    box-shadow: #2c2c2c93 0 4px 6px;
+    transition: all 0.3s ease-in-out;
+    background-color: #b7ffca;
 }
-.product img {
-    width: 100px;
-    height: 100px;
+.category-card:hover {
+    transform: scale(1.01);
+    box-shadow: #2c2c2c93 0 8px 12px;
+}
+.category-card .body {
+    background: linear-gradient(#00000000 50%, #0000009c 100%);
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    object-fit: contain;
+    border-radius: 16px;
+}
+.category-card .body .title {
+    width: 80%;
+    color: white;
+    position: absolute;
+    bottom: 3%;
+    left: 5%;
+}
+
+.product-card {
+    position: relative;
+    width: 18rem;
+    height: 26rem;
+    background-color: #ceffb4;
+    border-radius: 16px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: #2c2c2c93 0 4px 6px;
+    z-index: 10;
+}
+.product-card:hover {
+    box-shadow: #2c2c2c93 0 8px 12px;
+}
+.product-card:hover .controls .control-button {
+    opacity: 1;
+    left: -3.5rem;
+}
+.control-button {
+    left: -3rem;
+    position: absolute;
+    opacity: 0;
+    width: 3rem;
+    height: 3rem;
+    background-color: #ceffb4;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: #2c2c2c3e 0 4px 6px;
+    cursor: pointer;
+}
+.control-button img {
+    width: 50%;
+    height: 50%;
+}
+.control-button:nth-child(1) {
+    top: 0;
+    transition: 0.3s all cubic-bezier(.66,-0.54,.46,1.43);
+}
+.control-button:nth-child(2) {
+    cursor: default;
+    top: 3.5rem;
+    transition: 0.4s all cubic-bezier(.66,-0.54,.46,1.43);
+}
+.control-button:nth-child(3) {
+    top: 7rem;
+    transition: 0.5s all cubic-bezier(.66,-0.54,.46,1.43);
+}
+.control-button:nth-child(4) {
+    top: 10.5rem;
+    transition: 0.6s all cubic-bezier(.66,-0.54,.46,1.43);
+}
+.control-button:hover {
+    transform: scale(1.1);
+}
+
+.product-card .image {
+    border-radius: 16px;
+    width: 18rem;
+    height: 18rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.product-card .image img {
+    width: 16rem;
+    height: 16rem;
+    border-radius: 16px;
+}
+.product-card .body {
+    width: 18rem;
+    height: 8rem;
+    padding: 0 1rem;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+.product-card .body .title {
+    font-size: 1.2rem;
+}
+.product-card .body .price span:first-child {
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+
+.pagination-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.pagination {
+    margin: 0;
+}
+.pagination a {
+    color: #036200;
 }
