@@ -21,12 +21,15 @@ header .breadcrumb {
     margin-bottom: 0;
 }
 .breadcrumb-item a {
-    color: #b7ffca;
+    color: #b7ffed;
 }
 .breadcrumb-item {
     color: rgb(199, 255, 190) !important;
+    cursor: pointer;
 } 
-
+.breadcrumb .active {
+    cursor: default;
+}
 
 
 .search-containter {
@@ -138,7 +141,7 @@ a {
     opacity: 0;
     width: 3rem;
     height: 3rem;
-    background-color: #ceffb4;
+    background-color: #b4ffd0;
     border-radius: 16px;
     display: flex;
     align-items: center;
@@ -212,4 +215,18 @@ a {
 }
 .pagination a {
     color: #036200;
+}
+
+.form-wrapper {
+    width: 100%;
+    padding: 120px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.form-wrapper form {
+    background-color: #9dffe8;
+    padding: 32px 18px;
+    border-radius: 16px;
+    box-shadow: #2c2c2c93 0 4px 6px;
 }
