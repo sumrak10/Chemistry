@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block header %}
+<header>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Категории</a></li>
+        <li class="breadcrumb-item"><a href="/category/{{ product.category.id }}">{{ product.category.name }}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
+    </ol>
+</header>
+{% endblock %}
+
+{% block content %}
+    
+    <div class="product-containter">
+        <div class="image-block">
+            <img src="{{ product.img.url }}" alt="">
+        </div>
+        <div class="text-block">
+            <p class="title">{{ product.name }}</p>
+            <p class="label">Цена:</p>
+            <p class="price"><span>{{ product.price }}</span> <span>руб./шт.</span></p>
+            <p class="label">Описание:</p>
+            <p class="des">{{ product.des }}</p>
+            <p class="label">На складе осталось:</p>
+            <p class="des">{{ product.stock_balance }} шт.</p>
+            <div class="controls controls__text-block" product-id="{{ product.id }}">
+                <div class="control-button inc">
+                    <img src="{% static 'plus.svg' %}" alt="">
+                </div>
+                <div class="control-button count">
+                    0
+                </div>
+                <div class="control-button dec">
+                    <img src="{% static 'minus.svg' %}" alt="">
+                </div>
+                <div class="control-button in-basket">
+                    <button class="btn btn-success">В корзину</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'js/controls.js' %}"></script>
+{% endblock%}

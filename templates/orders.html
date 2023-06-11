@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <div class="orders_container">
+        <div class="accordion" id="accordionExample">
+            {% for order in orders %}
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button order-item-header" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ order.order.id }}" aria-expanded="true" aria-controls="collapse{{ order.order.id }}">
+                    <div>
+                        <span>
+                            {% if order.order.status == 1 %}
+                            <span class="badge bg-info text-dark">Новый</span>
+                            {% endif %}
+                            {% if order.order.status == 2 %}
+                            <span class="badge bg-success text-light">В обработке</span>
+                            {% endif %}
+                            {% if order.order.status == 3 %}
+                            <span class="badge bg-danger text-light">Закрыт</span>
+                            {% endif %}
+                            {% if order.order.status == 4 %}
+                            <span class="badge bg-secondary text-light">Завершен</span>
+                            {% endif %}
+                        </span>
+                    </div>
+                    <div>
+                        <span>Заказ №</span>
+                        <span>{{ order.order.id }}</span>
+                    </div> 
+                    <div>
+                        <span>Создан: </span>
+                        <span>{{ order.order.date_created }}</span>
+                    </div>
+                </button>
+              </h2>
+              <div id="collapse{{ order.order.id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ order.order.id }}" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div class="basket-list basket-list__order">
+                        {% for product in order.products %}
+                        <div class="basket-item">
+                            <div class="basket-item-col basket-item-image">
+                                <img src="{{ product.product.img.url }}" alt="">
+                            </div>
+                            <div class="basket-item-col basket-item-title">
+                                <span class="label">
+                                    Наименование
+                                </span>
+                                <div class="main-text">
+                                    {{ product.product.name }}
+                                </div>
+                            </div>
+                            <div class="basket-item-col basket-item-price">
+                                <span class="label">
+                                    Цена
+                                </span>
+                                <div class="main-text">
+                                    <span>
+                                        {{ product.product.price }}
+                                    </span>
+                                    <span>
+                                        руб./шт.
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="basket-item-col basket-item-title">
+                                <span class="label">
+                                    Количество
+                                </span>
+                                <div class="main-text">
+                                    {{ product.count }}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+    </div>
+{% endblock%}

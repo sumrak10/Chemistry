@@ -17,10 +17,17 @@
 
 {% block content %}
 
-    
+    <div class="notification" id="notification">
+    </div>
     <div class="items-list">
+    <div class="search-containter">
+        <form class="d-flex search" action="{% url 'search' %}" method="GET">
+            <input class="form-control me-2" type="search" placeholder="Введите запрос" aria-label="Search" name="query">
+            <button class="btn btn-outline-success" type="submit">Искать</button>
+        </form>
+    </div>
     {% for product in products %}
-        <div class="product-card" style="width: 18rem;">
+        <div class="product-card" style="width: 18rem;" >
             <div class="controls" product-id="{{ product.id }}">
                 <div class="control-button inc">
                     <img src="{% static 'plus.svg' %}" alt="">
@@ -34,66 +41,40 @@
                 <div class="control-button in-basket">
                     <img src="{% static 'shop.svg' %}" alt="">
                 </div>
+                <div class="control-button in_favorites">
+                    <img src="{% static 'heart.svg' %}" alt="">
+                </div>
             </div>
-            <div class="image">
+            <a class="image" href="/product/{{ product.id }}">
                 <img src="{{ product.img.url }}" class="card-img-top" alt="...">
-            </div>
-            <div class="body">
+            </a>
+            <a class="body" href="/product/{{ product.id }}">
                 <h5 class="title">{{ product.name }}</h5>
                 <p class="price"><span>{{ product.price }} </span><span>руб./шт.</span></p>
-            </div>
+            </a>
         </div>
     {% endfor %}
     </div>
 
     <div class="pagination-container" aria-label="Page navigation example">
         <ul class="pagination">
-        <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-            </a>
-        </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-            </a>
-        </li>
+            
+            <li class="page-item {% if products.has_previous %}{% else %}disabled{% endif %}">
+                <a class="page-link" href="/category/{{ category.id }}/?page={% if products.has_previous %}{{ products.previous_page_number }}{% endif %}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+            {% for i in products.paginator.page_range %}
+                <li class="page-item"><a class="page-link" href="/category/{{ category.id }}/?page={{ i }}">{{ i }}</a></li>
+            {% endfor %}
+            <li class="page-item {% if products.has_next %}{% else %}disabled{% endif %}">
+                <a class="page-link" href="/category/{{ category.id }}/?page={% if products.has_next %}{{ products.next_page_number }}{% endif %}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
         </ul>
     </div>
     
-    <script>
-        const controls = document.querySelectorAll(".controls")
-        for (let i=0; i < controls.length; i++) {
-            let control = controls[i]
-            let product_id = control.getAttribute("product-id")
-            let inc = control.querySelector(".inc")
-            let dec = control.querySelector(".dec")
-            let count = control.querySelector(".count")
-            let in_basket = control.querySelector(".in-basket")
-            inc.addEventListener("click", (e) => {
-                count.innerHTML = parseInt(count.innerHTML) + 1
-            })
-            dec.addEventListener("click", (e) => {
-                count.innerHTML = parseInt(count.innerHTML) - 1
-                if (parseInt(count.innerHTML) === -1) {
-                    count.innerHTML = 0
-                }
-            })
-            in_basket.addEventListener("click", (e) => {
-                data = new FormData()
-                data.append("product_id", product_id)
-                data.append("count", count.innerHTML)
-                axios.post("/add_product/", data)
-                .then(data => {
-                    console.log("удачно добавлено")
-                })
-                .catch(error => {
-                    console.log("ошибка")
-                })
-            })
-        }
-    </script>
+    <script src="{% static 'js/controls.js' %}"></script>
 {% endblock%}

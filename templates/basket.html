@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block header %}
+
+{% endblock %}
+
+    <!-- <li class="breadcrumb-item active"><a href="/category/{{ category.id }}">{{ category.name }}</a></li> -->
+
+{% block content %}
+
+    <div class="basket-containter">
+        {% if current_user %}
+            {% if products_in_basket %}
+                <div class="basket-list">
+                    {% for product in products_in_basket %}
+                        <div class="basket-item">
+                            <div class="basket-item-col basket-item-image">
+                                <img src="{{ product.product.img.url }}" alt="">
+                            </div>
+                            <div class="basket-item-col basket-item-title">
+                                <span class="label">
+                                    Наименование
+                                </span>
+                                <div class="main-text">
+                                    {{ product.product.name }}
+                                </div>
+                            </div>
+                            <div class="basket-item-col basket-item-price">
+                                <span class="label">
+                                    Цена
+                                </span>
+                                <div class="main-text">
+                                    <span>
+                                        {{ product.product.price }}
+                                    </span>
+                                    <span>
+                                        руб./шт.
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="controls controls__basket" product-id="{{ product.id }}">
+                                <div class="control-button inc">
+                                    <img src="{% static 'plus.svg' %}" alt="">
+                                </div>
+                                <div class="control-button count">
+                                    {{ product.count }}
+                                </div>
+                                <div class="control-button dec">
+                                    <img src="{% static 'minus.svg' %}" alt="">
+                                </div>
+                                <div class="control-button del">
+                                    <img src="{% static 'trash.svg' %}" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <form action="" class="basket-full">
+                    <div class="full-price">
+                        <span>Итого: </span>
+                        <div class="full-price-text">
+                            <span id="full-summ">
+                                {{ basket_summ }}
+                            </span>
+                            <span>
+                                руб.
+                            </span>
+                        </div>
+                    </div>
+                    <a class="btn btn-success" href="/create_order/">Заказать</a>
+                </form>
+            {% else %}
+                <h3>Ваша корзина пуста</h3>
+            {% endif %}
+        {% else %}
+            <h3>Вы не вошли в аккаунт</h3>
+        {% endif %}
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", (e) => {
+            const controls = document.querySelectorAll(".controls")
+            for (let i=0; i < controls.length; i++) {
+                let control = controls[i]
+                let product_id = control.getAttribute("product-id")
+                let inc = control.querySelector(".inc")
+                let dec = control.querySelector(".dec")
+                let count = control.querySelector(".count")
+                let del_btn = control.querySelector(".del")
+                let full_summ = document.querySelector("#full-summ")
+                inc.addEventListener("click", (e) => {
+                    count.innerHTML = parseInt(count.innerHTML) + 1
+                    data = new FormData()
+                    data.append("product_id", product_id)
+                    data.append("count", count.innerHTML)
+                    axios.post("/update_product/", data)
+                    .then(data => {
+                        console.log("удачно обновлено")
+                        full_summ.innerHTML = data['data']['summ']
+                    })
+                    .catch(error => {
+                        console.log("ошибка")
+                    })
+                })
+                dec.addEventListener("click", (e) => {
+                    count.innerHTML = parseInt(count.innerHTML) - 1
+                    if (parseInt(count.innerHTML) === -1) {
+                        count.innerHTML = 0
+                    }
+                    data = new FormData()
+                    data.append("product_id", product_id)
+                    data.append("count", count.innerHTML)
+                    axios.post("/update_product/", data)
+                    .then(data => {
+                        console.log("удачно обновлено")
+                        full_summ.innerHTML = data['data']['summ']
+                    })
+                    .catch(error => {
+                        console.log("ошибка")
+                    })
+                })
+                del_btn.addEventListener("click", (e) => {
+                    let el = e.target.parentNode.parentNode.parentNode
+                    if (el.classList.contains("basket-item")) {
+                        if (confirm("Вы уверены что хотите удалить товар?")) {
+                            data = new FormData()
+                            data.append("product_id", product_id)
+                            data.append("count", count.innerHTML)
+                            axios.post("/delete_product/", data)
+                            .then(data => {
+                                console.log("удачно удалено")
+                                full_summ.innerHTML = data['data']['summ']
+                                el.remove()
+                            })
+                            .catch(error => {
+                                console.log("ошибка")
+                            })
+                        }
+                    }
+                })
+            }
+        })
+    </script>
+{% endblock%}

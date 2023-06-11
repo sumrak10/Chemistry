@@ -10,8 +10,8 @@
 <!-- <a href="/category/{{ category.id }}" class="btn btn-primary">Открыть</a> -->
     
     <div class="search-containter">
-        <form class="d-flex search">
-            <input class="form-control me-2" type="search" placeholder="Начните вводить" aria-label="Search">
+        <form class="d-flex search" action="{% url 'search' %}" method="GET">
+            <input class="form-control me-2" type="search" placeholder="Введите запрос" aria-label="Search" name="query">
             <button class="btn btn-outline-success" type="submit">Искать</button>
         </form>
     </div>

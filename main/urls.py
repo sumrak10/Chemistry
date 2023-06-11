@@ -24,8 +24,21 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
+    path('orders/', views.orders, name='orders'),
+    path('about/', views.about),
     path('category/<int:id>/', views.category),
+    path('product/<int:id>/', views.product),
+    path('basket/', views.basket),
+    path('favorites/', views.favorites),
+    path('search/', views.search, name='search'),
+    path('create_order/', views.create_order),
+
     path('add_product/', views.add_product),
+    path('update_product/', views.update_product),
+    path('delete_product/', views.delete_product),
+    path('in_favorites/', views.in_favorites),
+
+    path('change_user/', views.change_user_data, name='change_user'),
     path('login/', views.login_view, name='login'),
     path('reg/', views.reg_view, name='reg'),
     path('logout/', views.logout_view, name='logout'),

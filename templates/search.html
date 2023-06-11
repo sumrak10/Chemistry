@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block header %}
+
+    <header>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Категории</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ category.name }}</li>
+        </ol>
+    </header>
+    
+{% endblock %}
+
+    <!-- <li class="breadcrumb-item active"><a href="/category/{{ category.id }}">{{ category.name }}</a></li> -->
+
+{% block content %}
+
+    <div class="notification" id="notification">
+    </div>
+    <div class="items-list">
+    <div class="search-containter">
+        <form class="d-flex search" action="{% url 'search' %}" method="GET">
+            <input class="form-control me-2" type="search" placeholder="Введите запрос" aria-label="Search" name="query">
+            <button class="btn btn-outline-success" type="submit">Искать</button>
+        </form>
+    </div>
+    {% for product in products %}
+        <div class="product-card" style="width: 18rem;" >
+            <div class="controls" product-id="{{ product.id }}">
+                <div class="control-button inc">
+                    <img src="{% static 'plus.svg' %}" alt="">
+                </div>
+                <div class="control-button count">
+                    0
+                </div>
+                <div class="control-button dec">
+                    <img src="{% static 'minus.svg' %}" alt="">
+                </div>
+                <div class="control-button in-basket">
+                    <img src="{% static 'shop.svg' %}" alt="">
+                </div>
+                <div class="control-button in_favorites">
+                    <img src="{% static 'heart.svg' %}" alt="">
+                </div>
+            </div>
+            <a class="image" href="/product/{{ product.id }}">
+                <img src="{{ product.img.url }}" class="card-img-top" alt="...">
+            </a>
+            <a class="body" href="/product/{{ product.id }}">
+                <h5 class="title">{{ product.name }}</h5>
+                <p class="price"><span>{{ product.price }} </span><span>руб./шт.</span></p>
+            </a>
+        </div>
+    {% endfor %}
+    </div>
+
+    <div class="pagination-container" aria-label="Page navigation example">
+        <ul class="pagination">
+            
+            <li class="page-item {% if products.has_previous %}{% else %}disabled{% endif %}">
+                <a class="page-link" href="/search/?page={% if products.has_previous %}{{ products.previous_page_number }}{% endif %}&query={{query}}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+            {% for i in products.paginator.page_range %}
+                <li class="page-item"><a class="page-link" href="/search{{ category.id }}/?page={{ i }}&query={{query}}">{{ i }}</a></li>
+            {% endfor %}
+            <li class="page-item {% if products.has_next %}{% else %}disabled{% endif %}">
+                <a class="page-link" href="/search/?page={% if products.has_next %}{{ products.next_page_number }}{% endif %}&query={{query}}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+    <script src="{% static 'js/controls.js' %}"></script>
+{% endblock%}
