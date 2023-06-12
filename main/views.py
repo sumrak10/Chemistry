@@ -8,7 +8,6 @@ from django.contrib.auth.models import User
 from .models import Category, Product, Basket, ProductInBasket, Order, ProductInOrder, Favorites, FavoriteProduct
 from .forms import UserLoginForm, UserRegForm, ChangeUserForm, QuestionForm
 
-
 def arender(request, template, context):
     try:
         current_user = User.objects.get(id=request.user.id)
