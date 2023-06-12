@@ -24,6 +24,11 @@ SECRET_KEY = 'django-insecure-uqx*kt^gbgoa=)rv9&d*+9j%b4-wzmotxkdal_q(qnmwa=%-@x
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
+<<<<<<< HEAD
+=======
+
+ALLOWED_HOSTS = ['chemy.site','www.chemy.site']
+>>>>>>> 93b5eab1ab0e628c4c2fcbc3030e4a111ecfd129
 
 ALLOWED_HOSTS = ['chemy.site','www.chemy.site']
 #sdfdf
