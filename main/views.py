@@ -129,6 +129,9 @@ def create_order(request):
             product_in_order.order = order
             product_in_order.save()
             product_in_basket.delete()
+            product = Product.objects.get(id=product_in_order.product.id)
+            product.stock_balance = product.stock_balance - product_in_order.count
+            product.save()
         basket.save()
         response = arender(request, "status.html", {"status_text":"Ваш заказ принят в обработку"})
         return response

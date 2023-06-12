@@ -15,10 +15,10 @@
           <a class="navbar-brand logo" href="/">
             <img src="{% static 'logo.svg' %}" alt="" width="30" height="24">
           </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <button class="navbar-toggler" type="button" id="show-hide-navbar-menu">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse navbar-menu" id="navbarSupportedContent">
+          <div class="navbar-menu" id="navbar-menu">
             <ul class="navbar-nav">
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="/">Главная</a>
@@ -61,8 +61,8 @@
       {% endblock %}
     </main>
     <footer>
-      <p>2023 © Компания "Chemy". Все права зарезервированы.</p>
-      <a class="navbar-brand logo" href="/">
+      <p><span>2023 © Компания "Chemy".</span><span>Все права зарезервированы.</span></p>
+      <a class="footer-logo" href="/">
         <img src="{% static 'logo.svg' %}" alt="" width="30" height="24">
       </a>
       <ul>
@@ -85,6 +85,12 @@
         </li>
       </ul>
     </footer>
+    <script>
+      document.querySelector("#show-hide-navbar-menu").addEventListener("click", (e) => {
+        console.log(document.querySelector("#navbar-menu"))
+        document.querySelector("#navbar-menu").classList.toggle("navbar-menu-active")
+      })
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
