@@ -18,7 +18,7 @@ python manage.py runserver
 
 И в открывшейся форме вводим 
 Логин: admin
-Пароль: ASDzxc1221
+Пароль: xxxxxxx
 
 Далее выбираем нужную нам вкладку
 
