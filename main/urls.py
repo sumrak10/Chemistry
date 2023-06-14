@@ -42,5 +42,7 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('reg/', views.reg_view, name='reg'),
     path('logout/', views.logout_view, name='logout'),
+    path('reset_password/', views.reset_password),
+    path('change_password/<str:secret>', views.change_password),
 ] + static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)
 

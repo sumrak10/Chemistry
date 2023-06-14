@@ -5,7 +5,10 @@
     <div class="form-wrapper">
         <form action="{{ action }}" method="POST">
             {% load crispy_forms_tags %}
+            
             {% crispy form %}
         </form>
+        
+        <div>{{ special_link | safe }}</div>
     </div>
 {% endblock%}

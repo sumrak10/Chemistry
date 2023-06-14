@@ -54,6 +54,7 @@ class UserLoginForm(ModelForm):
 class UserRegForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(UserRegForm, self).__init__(*args, **kwargs)
+        self.fields['email'].required = False
         self.helper = FormHelper(self)
         self.helper.form_id = 'UserForm'
         self.helper.form_class = 'greenForms'
@@ -67,3 +68,38 @@ class UserRegForm(ModelForm):
         widgets = {
             'password': forms.PasswordInput(),
         }
+
+class ResetPasswordForm(forms.Form):
+    email = forms.CharField(label="Почта привязанная к аккаунту", max_length=220)
+    def __init__(self, *args, **kwargs):
+        super(ResetPasswordForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_id = 'UserForm'
+        self.helper.form_class = 'greenForms'
+        self.helper.form_method = 'post'
+        self.helper.form_action = 'submit_survey'
+
+        self.helper.add_input(Submit('submit', 'Восстановить пароль', css_class="btn-success"))
+
+class ChangePasswordForm(forms.Form):
+    password = forms.CharField(label="Введите новый пароль", max_length=220, widget=forms.PasswordInput())
+    confirm_password = forms.CharField(label="Повторите новый пароль", max_length=220, widget=forms.PasswordInput())
+    def __init__(self, *args, **kwargs):
+        super(ChangePasswordForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_id = 'UserForm'
+        self.helper.form_class = 'greenForms'
+        self.helper.form_method = 'post'
+        self.helper.form_action = 'submit_survey'
+
+        self.helper.add_input(Submit('submit', 'Изменить пароль', css_class="btn-success"))
+
+    def clean(self):
+        cleaned_data = super(ChangePasswordForm, self).clean()
+        password = cleaned_data.get("password")
+        confirm_password = cleaned_data.get("confirm_password")
+        if password != confirm_password:
+            raise forms.ValidationError(
+                "Введенные пароли не совпадают"
+            )
+

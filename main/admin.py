@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category, Product, Basket, ProductInBasket, Order, ProductInOrder, Favorites, FavoriteProduct, Question
+from .models import Category, Product, Basket, ProductInBasket, Order, ProductInOrder, Favorites, FavoriteProduct, Question, ChangePasswordUser
 
 # Register your models here.
 
@@ -42,3 +42,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ["name", "price"]
     search_fields = ['name']
     list_filter = ['name', 'price']
+
+@admin.register(ChangePasswordUser)
+class ChangePasswordUserAdmin(admin.ModelAdmin):
+    list_display = ["user", "secret"]

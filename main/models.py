@@ -143,3 +143,8 @@ class ProductInOrder(models.Model):
         verbose_name = "продукт в заказе"
         verbose_name_plural = "Продукты в заказе"
         ordering = ['id']
+
+
+class ChangePasswordUser(models.Model):
+    user = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name="Пользователь")
+    secret = models.CharField(max_length=24, default="Секретный код")

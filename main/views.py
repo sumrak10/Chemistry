@@ -4,9 +4,13 @@ from django.contrib.auth import login, logout, authenticate
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 
+from smtp.send_email import send_message
+
 from django.contrib.auth.models import User
-from .models import Category, Product, Basket, ProductInBasket, Order, ProductInOrder, Favorites, FavoriteProduct
-from .forms import UserLoginForm, UserRegForm, ChangeUserForm, QuestionForm
+from .models import Category, Product, Basket, ProductInBasket, Order, ProductInOrder, Favorites, FavoriteProduct, ChangePasswordUser
+from .forms import UserLoginForm, UserRegForm, ChangeUserForm, QuestionForm, ResetPasswordForm, ChangePasswordForm
+from .utils import get_random_string
+from chemistry.settings import HOST
 
 def arender(request, template, context):
     try:
@@ -18,7 +22,6 @@ def arender(request, template, context):
 
 def index(request):
     categories = Category.objects.all()
-
     response = arender(request, "index.html", {"categories": categories})
     return response
 
@@ -164,7 +167,7 @@ def login_view(request):
         form = UserLoginForm(request.POST)
     else:
         form = UserLoginForm()
-    response = arender(request, "form.html", {"form":form, "action": "/login/"})
+    response = arender(request, "form.html", {"form":form, "action": "/login/", "special_link": "<a href='/reset_password/'>Забыли пароль?</a>"})
     return response
 
 def reg_view(request):
@@ -185,7 +188,50 @@ def reg_view(request):
             return redirect("index")
     else:
         form = UserRegForm()
-    response = arender(request, "form.html", {"form":form, "action": "/reg/"})
+    response = arender(request, "form.html", {"form":form, "action": "/reg/", "special_link": "<a href='/login/'>Уже есть аккаунт?</a>"})
+    return response
+
+def reset_password(request):
+    if request.method == 'POST':
+        form = ResetPasswordForm(request.POST)
+        if form.is_valid():
+            try:
+                user = User.objects.get(email=request.POST['email'])
+            except:
+                user = None
+            print(request.POST['email'])
+            if user is not None:
+                secret = get_random_string(32)
+                ch = ChangePasswordUser()
+                ch.user = user
+                ch.secret = secret
+                ch.save()
+                send_message(request.POST['email'], "Изменение пароля", f"Ваша ссылка на сброс пароля {HOST}change_password/{secret}", [])
+                response = arender(request, "status.html", {"status_text":"Письмо со сменой пароля отправлено вам на почту"})
+                return response
+    else:
+        form = ResetPasswordForm()
+    response = arender(request, "form.html", {"form":form, "action": "/reset_password/", "special_link": "<a href='/login/'>Уже есть аккаунт?</a>"})
+    return response
+
+def change_password(request, secret=None):
+    if request.method == 'POST':
+        form = ChangePasswordForm(request.POST)
+        if form.is_valid():
+            try:
+                chpasuser = ChangePasswordUser.objects.get(secret=secret)
+                user = chpasuser.user
+                chpasuser.delete()
+            except:
+                user = None
+            if user is not None:
+                user.password = form.cleaned_data['password']
+                user.save()
+                response = arender(request, "status.html", {"status_text":"Пароль изменен!"})
+                return response
+    else:
+        form = ChangePasswordForm()
+    response = arender(request, "form.html", {"form":form, "action": f"/change_password/{secret}", "special_link": "<a href='/login/'>Уже есть аккаунт?</a>"})
     return response
 
 def logout_view(request):
