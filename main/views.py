@@ -225,7 +225,7 @@ def change_password(request, secret=None):
             except:
                 user = None
             if user is not None:
-                user.password = form.cleaned_data['password']
+                user.set_password(form.cleaned_data['password'])
                 user.save()
                 response = arender(request, "status.html", {"status_text":"Пароль изменен!"})
                 return response
