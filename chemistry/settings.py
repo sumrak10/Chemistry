@@ -23,10 +23,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-uqx*kt^gbgoa=)rv9&d*+9j%b4-wzmotxkdal_q(qnmwa=%-@x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['chemy.site','www.chemy.site']
-
+if DEBUG:
+    ALLOWED_HOSTS = []
+    HOST = "http://127.0.0.1:8000/"
+else:
+    ALLOWED_HOSTS = ['chemy.site','www.chemy.site']
+    HOST = "https://chemy.site/"
+#sdfdf
 
 # Application definition
 

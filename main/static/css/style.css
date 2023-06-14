@@ -270,6 +270,8 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
 }
 .form-wrapper form {
     background-color: #9dffe8;
