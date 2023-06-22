@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
                 alert("Товар добавлен")
             })
             .catch(error => {
-                console.log("ошибка")
+                console.log("ошибка", error)
             })
         })
         in_favorites.addEventListener("click", (e) => {

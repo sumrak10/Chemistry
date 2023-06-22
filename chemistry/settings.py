@@ -26,8 +26,8 @@ SECRET_KEY = 'django-insecure-uqx*kt^gbgoa=)rv9&d*+9j%b4-wzmotxkdal_q(qnmwa=%-@x
 DEBUG = False
 
 if DEBUG:
-    ALLOWED_HOSTS = []
-    HOST = "http://127.0.0.1:8000/"
+    ALLOWED_HOSTS = ['chemy.site','www.chemy.site']
+    HOST = "https://chemy.site/"
 else:
     ALLOWED_HOSTS = ['chemy.site','www.chemy.site']
     HOST = "https://chemy.site/"

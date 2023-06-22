@@ -4,7 +4,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 
-from smtp.send_email import send_message
+#from smtp.send_email import send_message
 
 from django.contrib.auth.models import User
 from .models import Category, Product, Basket, ProductInBasket, Order, ProductInOrder, Favorites, FavoriteProduct, ChangePasswordUser
@@ -199,14 +199,13 @@ def reset_password(request):
                 user = User.objects.get(email=request.POST['email'])
             except:
                 user = None
-            print(request.POST['email'])
             if user is not None:
                 secret = get_random_string(32)
                 ch = ChangePasswordUser()
                 ch.user = user
                 ch.secret = secret
                 ch.save()
-                send_message(request.POST['email'], "Изменение пароля", f"Ваша ссылка на сброс пароля {HOST}change_password/{secret}", [])
+                #send_message(request.POST['email'], "Изменение пароля", f"Ваша ссылка на сброс пароля {HOST}change_password/{secret}", [])
                 response = arender(request, "status.html", {"status_text":"Письмо со сменой пароля отправлено вам на почту"})
                 return response
     else:
@@ -218,17 +217,17 @@ def change_password(request, secret=None):
     if request.method == 'POST':
         form = ChangePasswordForm(request.POST)
         if form.is_valid():
-            try:
-                chpasuser = ChangePasswordUser.objects.get(secret=secret)
-                user = chpasuser.user
-                chpasuser.delete()
-            except:
-                user = None
-            if user is not None:
-                user.set_password(form.cleaned_data['password'])
-                user.save()
-                response = arender(request, "status.html", {"status_text":"Пароль изменен!"})
-                return response
+            #try:
+            #    chpasuser = ChangePasswordUser.objects.get(secret=secret)
+            #    user = chpasuser.user
+            #    chpasuser.delete()
+            #except:
+            #    user = None
+            #if user is not None:
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+            response = arender(request, "status.html", {"status_text":"Пароль изменен!"})
+            return response
     else:
         form = ChangePasswordForm()
     response = arender(request, "form.html", {"form":form, "action": f"/change_password/{secret}", "special_link": "<a href='/login/'>Уже есть аккаунт?</a>"})
@@ -238,7 +237,7 @@ def logout_view(request):
     logout(request)
     return redirect("index")
 
-@csrf_exempt
+
 def add_product(request):
     if request.method == 'POST':
         if request.user.id is not None:
@@ -253,7 +252,7 @@ def add_product(request):
             pib.save()
             basket.save()
             return JsonResponse({"message":"added", "summ":basket.summ})
-@csrf_exempt
+
 def update_product(request):
     if request.method == 'POST':
         if request.user.id is not None:
@@ -265,7 +264,7 @@ def update_product(request):
             basket = Basket.objects.get(user=request.user.id)
             basket.save()
             return JsonResponse({"message":"updated", "summ":basket.summ})
-@csrf_exempt
+
 def delete_product(request):
     if request.method == 'POST':
         if request.user.id is not None:
@@ -276,7 +275,7 @@ def delete_product(request):
             basket = Basket.objects.get(user=request.user.id)
             basket.save()
             return JsonResponse({"message":"updated", "summ":basket.summ})
-@csrf_exempt 
+
 def in_favorites(request):
     if request.method == 'POST':
         if request.user.id is not None:
