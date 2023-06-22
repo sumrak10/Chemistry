@@ -23,8 +23,11 @@ document.addEventListener("DOMContentLoaded", (e) => {
             data.append("count", count.innerHTML)
             axios.post("/add_product/", data)
             .then(data => {
-                console.log("удачно добавлено")
-                alert("Товар добавлен")
+                if (data["data"]["message"] == "not_auth") {
+                    alert("Войдите в аккаунт")
+                } else {
+                    alert("Товар добавлен")
+                }
             })
             .catch(error => {
                 console.log("ошибка", error)
@@ -35,16 +38,20 @@ document.addEventListener("DOMContentLoaded", (e) => {
             data.append("product_id", product_id)
             axios.post("/in_favorites/", data)
             .then(data => {
-                if (data['data']['message'] === 'added') {
-                    document.querySelector("#notification").innerHTML = "Товар добавлен в избранное"
+                if (data["data"]["message"] == "not_auth") {
+                    alert("Войдите в аккаунт")
+                } else {
+                    if (data['data']['message'] === 'added') {
+                        document.querySelector("#notification").innerHTML = "Товар добавлен в избранное"
+                    }
+                    if (data['data']['message'] === 'deleted') {
+                        document.querySelector("#notification").innerHTML = "Товар убран из избранного"
+                    }
+                    document.querySelector("#notification").style.left = '1rem'
+                    setTimeout(() => {
+                        document.querySelector("#notification").style.left = '-100rem'
+                    }, 2000);
                 }
-                if (data['data']['message'] === 'deleted') {
-                    document.querySelector("#notification").innerHTML = "Товар убран из избранного"
-                }
-                document.querySelector("#notification").style.left = '1rem'
-                setTimeout(() => {
-                    document.querySelector("#notification").style.left = '-100rem'
-                }, 2000);
             })
             .catch(error => {
                 console.log("ошибка")

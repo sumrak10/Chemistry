@@ -23,10 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-uqx*kt^gbgoa=)rv9&d*+9j%b4-wzmotxkdal_q(qnmwa=%-@x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 if DEBUG:
-    ALLOWED_HOSTS = ['chemy.site','www.chemy.site']
+    ALLOWED_HOSTS = []
     HOST = "https://chemy.site/"
 else:
     ALLOWED_HOSTS = ['chemy.site','www.chemy.site']

@@ -237,7 +237,7 @@ def logout_view(request):
     logout(request)
     return redirect("index")
 
-
+@csrf_exempt
 def add_product(request):
     if request.method == 'POST':
         if request.user.id is not None:
@@ -252,7 +252,10 @@ def add_product(request):
             pib.save()
             basket.save()
             return JsonResponse({"message":"added", "summ":basket.summ})
+        else:
+            return JsonResponse({"message":"not_auth"})
 
+@csrf_exempt
 def update_product(request):
     if request.method == 'POST':
         if request.user.id is not None:
@@ -264,7 +267,10 @@ def update_product(request):
             basket = Basket.objects.get(user=request.user.id)
             basket.save()
             return JsonResponse({"message":"updated", "summ":basket.summ})
+        else:
+            return JsonResponse({"message":"not_auth"})
 
+@csrf_exempt
 def delete_product(request):
     if request.method == 'POST':
         if request.user.id is not None:
@@ -275,7 +281,10 @@ def delete_product(request):
             basket = Basket.objects.get(user=request.user.id)
             basket.save()
             return JsonResponse({"message":"updated", "summ":basket.summ})
+        else:
+            return JsonResponse({"message":"not_auth"})
 
+@csrf_exempt
 def in_favorites(request):
     if request.method == 'POST':
         if request.user.id is not None:
@@ -292,3 +301,5 @@ def in_favorites(request):
                 favorite_product.favorites = favorites
                 favorite_product.save()
                 return JsonResponse({"message":"added"})
+        else:
+            return JsonResponse({"message":"not_auth"})
